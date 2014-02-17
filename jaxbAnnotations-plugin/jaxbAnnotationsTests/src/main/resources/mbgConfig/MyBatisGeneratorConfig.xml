@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright 2014 Mahiar Mody
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!--
+	Created by Mahiar Mody for testing the Jaxb Annotations Plugin. The MyBatis Generator will read this file
+	and generate the MyBatis artefact files (Java model classes, Java client classes, and SQL mapping XML files)
+	containing the Jaxb Annotations.
+
+	All properties in this file are read from the jaxbAnotationsTests/pom.xml file.
+-->
+
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<classPathEntry location="${main.resources.dir}/jdbcDrivers/hsqldb.jar" /> <!-- The JDBC driver location. -->
+
+	<!-- Model type = Conditional -->
+
+	<context id="ConditionalFieldTypeNoLobs" targetRuntime="MyBatis3" defaultModelType="conditional">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.FieldTypeJaxbAnnotations">
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' /> <!-- This annotation request should be ignored, as LOBS are to be ignored here-->
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="conditional.fieldType.noLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="conditional.fieldType.noLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="conditional.fieldType.noLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="ConditionalFieldTypeWithLobs" targetRuntime="MyBatis3" defaultModelType="conditional">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.FieldTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="true" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' />
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="conditional.fieldType.withLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="conditional.fieldType.withLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="conditional.fieldType.withLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="ConditionalPropertyTypeNoLobs" targetRuntime="MyBatis3" defaultModelType="conditional">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.PropertyTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="false" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorType(XmlAccessType.PROPERTY)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' /> <!--Should be ignored, as LOBS are to be ignored here-->
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="conditional.propertyType.noLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="conditional.propertyType.noLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="conditional.propertyType.noLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="ConditionalPropertyTypeWithLobs" targetRuntime="MyBatis3" defaultModelType="conditional">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.PropertyTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="true" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorType(XmlAccessType.PROPERTY)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' />
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="conditional.propertyType.withLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="conditional.propertyType.withLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="conditional.propertyType.withLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<!-- Model type = Hierarchical -->
+
+	<context id="HierarchicalFieldTypeNoLobs" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.FieldTypeJaxbAnnotations">
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' /> <!--Should be ignored, as LOBS are to be ignored here-->
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="hierarchical.fieldType.noLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="hierarchical.fieldType.noLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="hierarchical.fieldType.noLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="HierarchicalFieldTypeWithLobs" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.FieldTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="true" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' />
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="hierarchical.fieldType.withLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="hierarchical.fieldType.withLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="hierarchical.fieldType.withLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="HierarchicalPropertyTypeNoLobs" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.PropertyTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="false" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorType(XmlAccessType.PROPERTY)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' /> <!--Should be ignored, as LOBS are to be ignored here-->
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="hierarchical.propertyType.noLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="hierarchical.propertyType.noLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="hierarchical.propertyType.noLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="HierarchicalPropertyTypeWithLobs" targetRuntime="MyBatis3" defaultModelType="hierarchical">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.PropertyTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="true" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorType(XmlAccessType.PROPERTY)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' />
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="hierarchical.propertyType.withLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="hierarchical.propertyType.withLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="hierarchical.propertyType.withLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+
+
+	<!-- Model type = Flat -->
+
+	<context id="FlatFieldTypeNoLobs" targetRuntime="MyBatis3" defaultModelType="flat">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.FieldTypeJaxbAnnotations">
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' /> <!--Should be ignored, as LOBS are to be ignored here-->
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="flat.fieldType.noLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="flat.fieldType.noLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="flat.fieldType.noLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="FlatFieldTypeWithLobs" targetRuntime="MyBatis3" defaultModelType="flat">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.FieldTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="true" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' />
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="flat.fieldType.withLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="flat.fieldType.withLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="flat.fieldType.withLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="FlatPropertyTypeNoLobs" targetRuntime="MyBatis3" defaultModelType="flat">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.PropertyTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="false" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorType(XmlAccessType.PROPERTY)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' /> <!--Should be ignored, as LOBS are to be ignored here-->
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+
+
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="flat.propertyType.noLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="flat.propertyType.noLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="flat.propertyType.noLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+
+	<context id="FlatPropertyTypeWithLobs" targetRuntime="MyBatis3" defaultModelType="flat">
+
+		<plugin type="org.mybatis.generator.plugins.jaxbAnnotations.PropertyTypeJaxbAnnotations">
+			<property name="marshalBlobColumns" value="true" />
+			<property name='UsErs' value='@XmlRootElement(name="usERs")~@XmlAccessorType(XmlAccessType.PROPERTY)' />
+			<property name="UserS.uSer_Id" value="@XmlAttribute" />
+			<property name='UserS.first_Name' value='@XmlAttribute(name="first_name",required=true)' />
+			<property name='UserPhotos' value='@XmlRootElement(name="Photos",namespace="http://mybatis.generator.org/plugins/jaxb/test")' />
+			<property name='UserTutorial' value='@XmlRootElement(name="Tutorial")' />
+			<property name='UserTutorial.user_tutorial_id' value='@XmlAttribute(name="tutorialId",required=true)' />
+			<property name='UserTutorial.user_id' value='@XmlElement(name="userId",required=true)' />
+			<property name='UserTutorial.narrative' value='@XmlElement(name="TheFullContent",required=false)' />
+		</plugin>
+
+		<jdbcConnection driverClass="${hsql.driver.class}"
+			connectionURL="${hsql.connection.URL}" userId="${hsql.user.id}" password="${hsql.user.password}" />
+
+		<javaModelGenerator targetPackage="flat.propertyType.withLobs.modelDto" targetProject="${targetProject.dir}" />
+		<sqlMapGenerator targetPackage="flat.propertyType.withLobs.sqlMaps" targetProject="${targetProject.dir}" />
+		<javaClientGenerator targetPackage="flat.propertyType.withLobs.clientDao" targetProject="${targetProject.dir}" type="XMLMAPPER" />
+
+		<table tableName="Users" domainObjectName="Users">
+			<generatedKey column="user_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserSkills" domainObjectName="UserSkills">
+			<generatedKey column="skill_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+
+		<table tableName="UsersToSkills" domainObjectName="UsersToSkills" />
+		<table tableName="UserPhotos" domainObjectName="UserPhotos" />
+		<table tableName="UserTutorial" domainObjectName="UserTutorial">
+			<generatedKey column="user_tutorial_id" sqlStatement="CALL IDENTITY();" identity="true" type="post" />
+		</table>
+		<table tableName="UserBlog" domainObjectName="UserBlog" />
+
+	</context>
+
+</generatorConfiguration>

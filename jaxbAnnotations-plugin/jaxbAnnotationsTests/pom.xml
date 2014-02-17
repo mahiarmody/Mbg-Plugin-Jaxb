@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+
+<!--
+  Copyright 2014 Mahiar Mody
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.mybatis.generator</groupId>
+		<artifactId>jaxbAnnotations-plugin</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>jaxbAnnotationsTests</artifactId>
+	<packaging>jar</packaging>
+
+	<name>jaxbAnnotationsTests</name>
+	<url>http://maven.apache.org</url>
+
+	<!-- For built in Maven properties see: http://maven.apache.org/ref/3.0.3/maven-model/maven.html#class_build -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bcp6>/usr/lib/jvm/oldSunJres/jre1.6.0_45/lib</bcp6> <!-- Cross compile bootclasspath for jdk 6 -->
+		<hsql.driver.class>org.hsqldb.jdbcDriver</hsql.driver.class>
+		<hsql.connection.URL>jdbc:hsqldb:hsql://localhost:9001/jat</hsql.connection.URL>
+		<hsql.user.id>sa</hsql.user.id>
+		<hsql.user.password />
+		<main.resources.dir>${basedir}/src/main/resources</main.resources.dir>
+		<targetProject.dir>MAVEN</targetProject.dir>
+	</properties>
+
+
+	<dependencies>
+		<!-- The MyBatis Generator dependency follows -->
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-maven-plugin</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+
+		<!-- The MyBatis dependency -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+
+
+		<!-- The dependent jdbc driver used by the JUnit tests -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.2.8</version>
+		</dependency>
+
+
+		<!-- Add the MyBatis Generator JAXB Annotations Plugin as a dependency.
+		The JAXB Annotations Plugin is added here as a dependency only to ensure
+		the correct ordering of submodule Maven builds. Adding this dependency here
+		informs Maven that the other submodule viz. jaxbAnnotations should be
+		built before this module. Note that, in order to allow the Maven MBG plugin
+		to add JAXB annotations to the generated Java model classes, this dependency
+		needs to be added as a dependency in the Maven MBG plugin itself and not as
+		a project dependency. -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jaxbAnnotations</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+		<!-- The auto-generated JUnit dependency follows -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+
+			<!-- Start of the compiler versioning plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<fork>true</fork>
+					<compilerVersion>1.7</compilerVersion>
+					<forceJavacCompilerUse>true</forceJavacCompilerUse>
+					<debug>false</debug>
+					<optimize>true</optimize>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+					<compilerArguments>
+						<Xlint:all />
+						<bootclasspath>${bcp6}/rt.jar${path.separator}${bcp6}/alt-rt.jar${path.separator}${bcp6}/alt-string.jar${path.separator}${bcp6}/charsets.jar${path.separator}${bcp6}/deploy.jar${path.separator}${bcp6}/javaws.jar${path.separator}${bcp6}/jce.jar${path.separator}${bcp6}/jsse.jar${path.separator}${bcp6}/management-agent.jar${path.separator}${bcp6}/plugin.jar${path.separator}${bcp6}/resources.jar</bootclasspath>
+					</compilerArguments>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-compile</id> <!-- Override Maven's "default-compile" <execution> to use java 6 -->
+						<phase>compile</phase> <!-- binds the goal: compiler:compile by default -->
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-testCompile</id> <!-- Override Maven's "default-testCompile" <execution> to use java 6 -->
+						<phase>test-compile</phase> <!-- binds the goal: compiler:testCompile by default -->
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- End of the compiler versioning plugin -->
+
+
+			<!-- Start of starting up/running the HSQLDB database 
+				For this plugin usage see: http://maven.apache.org/plugins/maven-antrun-plugin/ -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId> <!-- Starts the HSQLDB in a separate process background process. Plugin failures not reported. So be careful. -->
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>Start up HSQLDB</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<target name="startDb" description="Run HSQL database server">
+
+						<property name="ant.classpath" value="${main.resources.dir}" />
+
+						<java classname="org.hsqldb.server.Server" fork="yes" spawn="true"
+								classpath="${ant.classpath}/jdbcDrivers/hsqldb.jar">
+							<arg value="-database.0" />
+							<arg value="mem:jaxbAnnotationsTestDb" />
+							<arg value="-dbname.0"/>
+							<arg value="jat" />
+							<arg value="no_system_exit" />
+							<arg value="true" />
+						</java>
+					</target>
+				</configuration>
+			</plugin>
+			<!-- End of starting up/running the HSQLDB database -->
+
+
+			<!--
+			Start of plugin to handle HSQLDB interactions.
+			This plugin will:
+			1. In Phase "generate-sources": Create and fill tables with data in the in-memory HSQLDB database server
+			2. In Phase "test": shutdown HSQLDB database, after the JUnit tests are run.
+
+			For this plugin usage see: http://mojo.codehaus.org/sql-maven-plugin/index.html 
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				
+				<dependencies>
+					<!-- specify the dependent jdbc driver here -->
+					<dependency>
+						<groupId>org.hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+						<version>2.2.8</version>
+					</dependency>
+				</dependencies>
+				
+				<!-- common configuration shared by all executions -->
+				<configuration>
+					<driver>${hsql.driver.class}</driver>
+					<url>${hsql.connection.URL}</url>
+					<username>${hsql.user.id}</username>
+					<password>${hsql.user.password}</password>
+					<autocommit>true</autocommit>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-and-fill-tables</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<srcFiles>
+								<srcFile>${project.build.resources[0].directory}/sqlScript/SetupDbTestScripts.sql</srcFile> <!-- See: http://stackoverflow.com/questions/9216557/referencing-resources-directory-from-project-object-model-variables -->
+							</srcFiles>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>Shutdown-HSQLDB-database-server</id>
+						<phase>test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<sqlCommand>SHUTDOWN;</sqlCommand>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- End of plugin to handle HSQLDB interactions. -->
+
+
+
+			<!-- Start of creating MyBatisGenerator (MBG) artifacts (Java model classes, client classes, and SQL mapping files) -->
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<overwrite>true</overwrite>
+					<!--
+					The targetProject attribute of the generator configurations is interpreted differently when running
+					with Maven. If set to the special value "MAVEN" (case sensitive), then targetProject will be set to
+					the plugin's output directory, and that directory will be created if it doesn't already exist. If
+					not set to "MAVEN", then targetProject will be interpreted as normal by MBG - it must be set to a
+					directory that already exists. Default value: ${project.build.directory}/generated-sources/mybatis-generator 
+					-->
+					<outputDirectory>${project.build.directory}/generated-sources/mybatis-generator</outputDirectory>
+					<configurationFile>${main.resources.dir}/mbgConfig/MyBatisGeneratorConfig.xml</configurationFile>
+					<verbose>true</verbose>
+				</configuration>
+				<executions>
+					<execution>
+						<id>Generate MyBatis Artifacts</id>
+						<phase>generate-sources</phase> <!-- The MBG plugin is bound to the generate-sources phase of a Maven build by default. Explicitly specified for clarity. -->
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<!-- Add the MyBatis Generator JAXB Annotations Plugin as a dependency to the Maven MBG plugin here -->
+					<dependency>
+						<groupId>${project.groupId}</groupId>
+						<artifactId>jaxbAnnotations</artifactId>
+						<version>${project.version}</version>
+						<scope>runtime</scope>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- End of creating MyBatisGenerator (MBG) artifacts (Java model classes, client classes, and SQL mapping files) -->
+
+
+		</plugins>
+	</build>
+
+</project>

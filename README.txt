@@ -1,0 +1,211 @@
+﻿Copyright 2014 Mahiar Mody.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+
+
+Created by: Mahiar Mody
+
+This is the ReadMe file for the MyBatis Generator Jaxb annotations Plugin
+
+Contents:
+
+1. THE JAXB ANNOTATIONS PLUGIN JAR FILE NAME AND LOCATION IN THE BINARY DISTRIBUTION ARCHIVE
+2. DEPENDENCIES
+3. PLUGIN USAGE
+4. STRUCTURE OF THE JAXB ANNOTATIONS PLUGIN PROJECT
+5. TO BUILD AND TEST THE JAXB ANNOTATIONS PLUGIN FROM SOURCE
+6. THE DISTRIBUTION ARCHIVE FILES
+
+
+
+1. THE JAXB ANNOTATIONS PLUGIN JAR FILE NAME AND LOCATION IN THE BINARY DISTRIBUTION ARCHIVE
+=============================================================================================
+JaxbAnnotations-1.0.0.jar is the only file needed to add JAXB annotation
+support to the MyBatis Generator Tool. Extract it from the lib directory in the
+mbg-plugin-jaxb-1.0.0-binary.zip or mbg-plugin-jaxb-1.0.0-binary.tar.gz archive,
+add it to the classpath of your project, along with the MyBatis Generator's JAR file.
+
+
+
+2. DEPENDENCIES
+================
+There are no dependencies beyond the JRE and the MyBatis Generator Tool itself.
+JRE 5.0 or above is required to use this plugin.
+
+When this plugin is built from source, JRE 6.0 and above is required to run
+the test cases. Also, the HSQLDB Jar file / dependency is required to create
+the test case database and test case tables. This plugin is developed using Maven
+and consequently, to generate this plugin from source, Maven also needs to be
+installed on your computer.
+
+
+
+
+
+3. PLUGIN USAGE
+================
+To use this plugin in its simplest form, simply add the following line under the
+<context ....> element of the MyBatis Generator's XML configuration file:
+<plugin type="org.mybatis.generator.plugins.annotations.FieldTypeJaxbAnnotations" />
+or
+<plugin type="org.mybatis.generator.plugins.annotations.PropertyTypeJaxbAnnotations" />
+depending upon your requirement to annotate fields or methods (properties).
+
+Please refer to the plugin's Java Doc API for a detailed description on how to
+use this plugin. The Java Doc API can be found in the docs directory of the
+mbg-plugin-jaxb-1.0.0-binary.zip & mbg-plugin-jaxb-1.0.0-binary.tar.gz archives.
+
+For convenience the above-mentioned javadocs are also compressed into a jar archive
+named jaxbAnnotations-1.0.0-javadoc.jar that is located in the lib dirctory of the
+mbg-plugin-jaxb-1.0.0-binary.zip & mbg-plugin-jaxb-1.0.0-binary.tar.gz archives.
+
+To use this plugin, add the JaxbAnnotations-1.0.0.jar to the classpath of your project,
+along with the MyBatis Generator's JAR file, in order to add JAXB annotations to
+the generated model classes. The JaxbAnnotations-1.0.0.jar file is located in the lib
+directory of the mbg-plugin-jaxb-1.0.0-binary.zip & mbg-plugin-jaxb-1.0.0-binary.tar.gz
+archives.
+
+
+
+
+
+
+4. STRUCTURE OF THE JAXB ANNOTATIONS PLUGIN PROJECT
+=====================================================
+
+Project install directory
+---------------------------
+The entire project is rooted at (installed in) the directory named jaxbAnnotations-plugin.
+See the mbg-plugin-jaxb-1.0.0-source.tar.gz or mbg-plugin-jaxb-1.0.0-source.zip archive files.
+
+
+The Project submodules
+------------------------
+This project is divided into two submodules named jaxbAnnotations and jaxbAnnotationsTests.
+
+The jaxbAnnotations submodule contains the JAXB annotations plugin source code, the
+JAXB annotations plugin documentation (in the source code itself as JavaDoc comments),
+and the maven assembly descriptor files (in the assembly directory) required to created
+the final plugin binary and source distributions.
+
+The jaxbAnnotationsTests submodule contains the JAXB annotations plugin JUnit test case
+source code, along with the corresponding test resources.
+The Java source code (java model classes) that are to be tested for the presense of
+JAXB annotations by the JUnit test cases cannot exist in this submodule, because these
+java model classes are only dynamically generated when the MyBatis Generator is run,
+based upon the underlying database table structures.
+
+
+
+
+
+
+5. TO BUILD AND TEST THE JAXB ANNOTATIONS PLUGIN FROM SOURCE
+=============================================================
+
+The JAXB Annotations Plugin is developed using Maven. Hence, to build this plugin from
+source you'll need to have Maven installed on your computer.
+
+Copy the jaxbAnnotations-plugin directory recursively to any directory of your choice.
+Next, move into the jaxbAnnotations-plugin directory just copied and give the command:
+
+mvn clean install
+
+That's it.
+
+
+How this plugin build works
+----------------------------
+
+A.
+The submodule jaxbAnnotations is the first to be built.
+
+B.
+The jaxbAnnotations submodule build includes compiling all the JAXB Annotations plugin
+source files, compiled for jdk version 1.5, followed by the creation of the JAXB annotations
+plugin JAR file, and the Java Docs for this plugin. During the "package" phase, the JAXB
+annotations plugin source and binary distribution archives are created.
+During the final "install" phase the JAXB annotations plugin JAR file is copied to the
+local maven repository usually named: ".m2".
+
+C.
+The submodule jaxbAnnotationsTests is built next. The following steps pertain to the building
+of the jaxbAnnotationsTests submodule.
+
+D.
+First, when the "generate-sources" phase of the Maven default lifecycle, is invoked
+for the jaxbAnnotationsTests submodule, the HSQLDB is started in server mode as an
+in-memory database, in the background. HSQLDB is used as the database for testing this plugin.
+
+E.
+Next, in the "generate-sources" phase, after the HSQLDB is started, the Jaxb Annotations plugin
+test tables are created and filled with data. The SQL script responsible for creating and
+filling the test tables is located in:
+jaxbAnotationsTest/src/main/resources/sqlScripts/SetupDbTestScripts.sql
+
+F.
+Next, in the "generate-sources" phase, the MyBatis Generator is invoked to generated the MyBatis
+Artifacts (Java model class, Java client classes, and XML SQL Mapping files) by introspecting the
+test table structure created in the previous step. These auto-generated Java model classes
+are to be tested for the presense of JAXB Annotations. To the Maven MyBatis Generator plugin,
+the other jaxbAnnotations submodule is specified as a dependency, so that the MyBatis Generator plugin
+knows how to decorate the auto-generated Java model classes with JAXB annotations.
+The XML configuration file required the MyBatis Generator to introspect the tables is located at:
+jaxbAnnotationsTests/src/main/resources/mbgConfig/MyBatisGeneratorConfig.xml
+MyBatis Generator creates the artifacts at location:
+jaxbAnnotationsTests/target/generated-sources/mybatis-generator
+
+G.
+Next, when the "compile" phase is invoked, the MyBatis Generator generated artifacts
+are compiled using jdk 1.6.
+
+H.
+Next, when the "test-compile" phase is invoked, the JUnit test cases developed for testing
+this plugin are compiled using jdk 1.6.
+
+I.
+Next, when the "test" phase is invoked, the compiled JUnit test cases are run against
+the compiled MBG generated java model classes to test for the presense or absense of
+the appropriate JAXB annotations. Running of the JUnit tests involves
+using MyBatis hence the MyBatis dependency is needed here (not the MyBatis Generator
+dependency). To run, MyBatis requires an XML configuration file. This configuration
+file is located at:
+jaxbAnnotationsTests/test/resources/mybatis-config.xml
+
+J.
+Next, in the "test" phase, after the JUnit tests are run, the HSQLDB server is
+gracefully shutdown.
+
+K.
+Next, when the "package" phase is invoked, the JUnit tests are packaged in a JAR
+archive. The JUnit test JAR is of no importance and hence is to be ignored.
+
+L.
+Finally, when the "install" phase is invoked, all the JAR files are copied to
+the local repository generally named ".m2".
+
+
+
+
+
+6. THE DISTRIBUTION ARCHIVE FILES
+==================================
+
+There are four distribution archives. Two of the four archives named
+mbg-plugin-jaxb-1.0.0-source.tar.gz & mbg-plugin-jaxb-1.0.0-source.zip
+contain the source code for this plugin, while the other two named
+mbg-plugin-jaxb-1.0.0-binary.zip & mbg-plugin-jaxb-1.0.0-binary.tar.gz
+contain the binary distributions needed to utilize this plugin.
+

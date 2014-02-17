@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+
+<!--
+  Copyright 2014 Mahiar Mody
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.mybatis.generator</groupId>
+		<artifactId>jaxbAnnotations-plugin</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>jaxbAnnotations</artifactId>
+	<packaging>jar</packaging>
+
+	<name>jaxbAnnotations</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bcp5>/usr/lib/jvm/oldSunJres/jre1.5.0_22/lib</bcp5> <!-- Cross compile bootclasspath for jkd 5 -->
+	</properties>
+
+
+	<dependencies>
+		<!-- The MyBatis Generator dependency follows - required to compile the jaxbAnnotation plugin source files -->
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-maven-plugin</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+
+			<!-- Start of the compiler versioning plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<executions>
+					<execution>
+						<id>default-compile</id> <!-- Override Maven's "default-compile" <execution> to use java 5 -->
+						<phase>compile</phase> <!-- binds the goal: compiler:compile by default -->
+						<configuration>
+							<source>1.5</source>
+							<target>1.5</target>
+							<fork>true</fork>
+							<compilerVersion>1.7</compilerVersion>
+							<forceJavacCompilerUse>true</forceJavacCompilerUse>
+							<debug>false</debug>
+							<optimize>true</optimize>
+							<showDeprecation>true</showDeprecation>
+							<showWarnings>true</showWarnings>
+							<compilerArguments>
+								<Xlint:all />
+								<bootclasspath>${bcp5}/rt.jar${path.separator}${bcp5}/jsse.jar${path.separator}${bcp5}/jce.jar${path.separator}${bcp5}/charsets.jar</bootclasspath>
+							</compilerArguments>
+						</configuration>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- End of the compiler versioning plugin -->
+
+
+			<!-- Start of the javadoc plugin required for generating the javadocs -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<show>protected</show>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase> <!-- package is the default lifecycle phase when this plugin would run anyway, but added in just for clarity -->
+						<goals>
+							<goal>jar</goal> <!-- Conveniently places the generated java docs into a jar archive -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- End of the javadoc plugin required for generating the javadocs -->
+
+
+
+			<!-- Start of the assembly plugin required for generating the compressed (zip, tar.gz) archives for 3rd party distribution -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/binZip.xml</descriptor> <!-- ${basedir}/src/main/assembly is the standard location for assembly descriptors. -->
+						<descriptor>src/main/assembly/srcZip.xml</descriptor>
+					</descriptors>
+					<finalName>mbg-plugin-jaxb-${project.version}</finalName>
+					<tarLongFileMode>gnu</tarLongFileMode>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase> <!-- Default phase, but added for clarity. -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- End of the assembly plugin required for generating the compressed (zip, tar.gz) archives for 3rd party distribution -->
+
+		</plugins>
+
+
+
+	</build>
+
+<!--
+	<reporting>
+		<plugins>
+
+		</plugins>
+	</reporting>
+-->
+</project>
