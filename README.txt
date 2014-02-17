@@ -26,7 +26,6 @@ Contents:
 3. PLUGIN USAGE
 4. STRUCTURE OF THE JAXB ANNOTATIONS PLUGIN PROJECT
 5. TO BUILD AND TEST THE JAXB ANNOTATIONS PLUGIN FROM SOURCE
-6. THE DISTRIBUTION ARCHIVE FILES
 
 
 
@@ -196,16 +195,4 @@ L.
 Finally, when the "install" phase is invoked, all the JAR files are copied to
 the local repository generally named ".m2".
 
-
-
-
-
-6. THE DISTRIBUTION ARCHIVE FILES
-==================================
-
-There are four distribution archives. Two of the four archives named
-mbg-plugin-jaxb-1.0.0-source.tar.gz & mbg-plugin-jaxb-1.0.0-source.zip
-contain the source code for this plugin, while the other two named
-mbg-plugin-jaxb-1.0.0-binary.zip & mbg-plugin-jaxb-1.0.0-binary.tar.gz
-contain the binary distributions needed to utilize this plugin.
 
