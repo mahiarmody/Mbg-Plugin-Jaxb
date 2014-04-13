@@ -27,7 +27,16 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
-	<classPathEntry location="${main.resources.dir}/jdbcDrivers/hsqldb.jar" /> <!-- The JDBC driver location. -->
+	<!--
+	The <classPathEntry location="..." /> element is useful for specifying the classpath of the JDBC driver when using the
+	MyBatis Generator with ant.
+	However, when using the MyBatis Generator with Maven, this element may simply be omitted, provided that the JDBC driver
+	is specified as a Maven Dependency to the MyBatis Generator Plugin (and not just a project dependency). If this is not
+	the case, then the <classPathEntry location="" /> must be specified for maven builds too, just like it is with ant builds.
+
+	<classPathEntry location="" />
+	-->
+
 
 	<!-- Model type = Conditional -->
 

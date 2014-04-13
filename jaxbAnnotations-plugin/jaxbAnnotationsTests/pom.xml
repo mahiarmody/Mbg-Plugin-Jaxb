@@ -41,7 +41,7 @@
 		<hsql.connection.URL>jdbc:hsqldb:hsql://localhost:9001/jat</hsql.connection.URL>
 		<hsql.user.id>sa</hsql.user.id>
 		<hsql.user.password />
-		<main.resources.dir>${basedir}/src/main/resources</main.resources.dir>
+		<main.resources.dir>${basedir}/src/main/resources</main.resources.dir>		
 		<targetProject.dir>MAVEN</targetProject.dir>
 	</properties>
 
@@ -157,10 +157,12 @@
 				<configuration>
 					<target name="startDb" description="Run HSQL database server">
 
-						<property name="ant.classpath" value="${main.resources.dir}" />
+						<!-- Reference the maven hsqldb dependency. See: https://maven.apache.org/plugins-archives/maven-antrun-plugin-1.5/examples/classpaths.html -->
+						<property name="ant.hsql.jar.path" value="${org.hsqldb:hsqldb:jar}" />
+						<echo message="ant.hsql.jar.path is: ${ant.hsql.jar.path}" />
 
 						<java classname="org.hsqldb.server.Server" fork="yes" spawn="true"
-								classpath="${ant.classpath}/jdbcDrivers/hsqldb.jar">
+								classpath="${ant.hsql.jar.path}">
 							<arg value="-database.0" />
 							<arg value="mem:jaxbAnnotationsTestDb" />
 							<arg value="-dbname.0"/>
@@ -268,6 +270,14 @@
 						<artifactId>jaxbAnnotations</artifactId>
 						<version>${project.version}</version>
 						<scope>runtime</scope>
+					</dependency>
+					<!-- Add the HSQL DB jdbc driver here as a dependency.
+					Doing so will allow us to omit the <classPathEntry location="..." /> element in the MBG config XML file
+					namely MyBatisGeneratorConfig.xml -->
+					<dependency>
+						<groupId>org.hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+						<version>2.2.8</version>
 					</dependency>
 				</dependencies>
 			</plugin>
