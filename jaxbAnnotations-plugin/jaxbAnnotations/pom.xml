@@ -27,10 +27,10 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<artifactId>jaxbAnnotations</artifactId>
+	<artifactId>JaxbAnnotations</artifactId>
 	<packaging>jar</packaging>
 
-	<name>jaxbAnnotations</name>
+	<name>JaxbAnnotations Source Code</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

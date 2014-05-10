@@ -26,8 +26,13 @@
 
 	<packaging>pom</packaging>
 
-	<name>jaxbAnnotations-plugin</name>
+	<name>JaxbAnnotations Plugin</name>
 
+	<!--
+	Each <module> element in the <modules> element below corresponds to a subdirectory of this pom.xml file's directory.
+	Maven knows to look in these subdirectories for pom.xml files, and it will add these submodules to the list of Maven
+	projects included in a build.
+	-->
 	<modules>
 		<module>jaxbAnnotations</module> <!-- This submodule has the source code for the JAXB Annotations Plugin. -->
 		<module>jaxbAnnotationsTests</module> <!-- This submodule has only the JUnit tests for testing the JAXB Annotations Plugins. -->

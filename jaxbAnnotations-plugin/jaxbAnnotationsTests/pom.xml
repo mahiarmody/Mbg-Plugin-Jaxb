@@ -27,10 +27,10 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<artifactId>jaxbAnnotationsTests</artifactId>
+	<artifactId>JaxbAnnotationsTests</artifactId>
 	<packaging>jar</packaging>
 
-	<name>jaxbAnnotationsTests</name>
+	<name>JaxbAnnotations Tests Only</name>
 	<url>http://maven.apache.org</url>
 
 	<!-- For built in Maven properties see: http://maven.apache.org/ref/3.0.3/maven-model/maven.html#class_build -->
@@ -81,7 +81,7 @@
 		a project dependency. -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxbAnnotations</artifactId>
+			<artifactId>JaxbAnnotations</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -267,7 +267,7 @@
 					<!-- Add the MyBatis Generator JAXB Annotations Plugin as a dependency to the Maven MBG plugin here -->
 					<dependency>
 						<groupId>${project.groupId}</groupId>
-						<artifactId>jaxbAnnotations</artifactId>
+						<artifactId>JaxbAnnotations</artifactId>
 						<version>${project.version}</version>
 						<scope>runtime</scope>
 					</dependency>

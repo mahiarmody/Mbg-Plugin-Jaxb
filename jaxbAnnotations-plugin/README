@@ -67,7 +67,7 @@ use this plugin. The Java Doc API can be found in the docs directory of the
 mbg-plugin-jaxb-1.0.0-binary.zip & mbg-plugin-jaxb-1.0.0-binary.tar.gz archives.
 
 For convenience the above-mentioned javadocs are also compressed into a jar archive
-named jaxbAnnotations-1.0.0-javadoc.jar that is located in the lib dirctory of the
+named JaxbAnnotations-1.0.0-javadoc.jar that is located in the lib dirctory of the
 mbg-plugin-jaxb-1.0.0-binary.zip & mbg-plugin-jaxb-1.0.0-binary.tar.gz archives.
 
 To use this plugin, add the JaxbAnnotations-1.0.0.jar to the classpath of your project,
